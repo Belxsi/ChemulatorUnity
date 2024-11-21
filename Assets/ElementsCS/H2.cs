@@ -1,0 +1,2 @@
+public class H2 : Element,NoMetal {
+public H2() : base("H2", new VisualPixel(new(0.2941177f, 0.5764706f,0.7254902f),0,0,0),null, new PhysicParameters(2,21f,14f,840f,5f,0.1815f,28,0), new(8.99E-05f)){}}

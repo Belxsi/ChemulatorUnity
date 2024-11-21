@@ -1,0 +1,10 @@
+{"Formula":"2Na+2H2O=2NaOH+H2","Reagents":["Na","H2O"],"CountR":[2,2],"Products":["NaOH","H2"],"CountP":[2,1],"T":0.0,"MT":0.0,"Q":0.0,"Kat":[]}
+{"Formula":"2Na+H2=2NaH","Reagents":["Na","H2"],"CountR":[2,1],"Products":["NaH"],"CountP":[2],"T":360.0,"MT":430.0,"Q":0.0,"Kat":[]}
+{"Formula":"2H2O2=2H2O+O2","Reagents":["H2O2"],"CountR":[2],"Products":["H2O","O2"],"CountP":[2,1],"T":0.0,"MT":0.0,"Q":0.0,"Kat":["KMnO4"]}
+{"Formula":"2H2+O2=2H2O","Reagents":["H2","O2"],"CountR":[2,1],"Products":["H2O"],"CountP":[2],"T":510.0,"MT":0.0,"Q":576.0,"Kat":[]}
+{"Formula":"NaH+H2O=NaOH+H2","Reagents":["NaH","H2O"],"CountR":[1,1],"Products":["NaOH","H2"],"CountP":[1,1],"T":0.0,"MT":0.0,"Q":0.0,"Kat":[]}
+{"Formula":"2NaH=2Na+H2","Reagents":["NaH"],"CountR":[2],"Products":["Na","H2"],"CountP":[2,1],"T":430.0,"MT":0.0,"Q":0.0,"Kat":[]}
+{"Formula":"Na2O2+2Na=2Na2O","Reagents":["Na2O2","Na"],"CountR":[1,2],"Products":["Na2O"],"CountP":[2],"T":370.0,"MT":675.0,"Q":0.0,"Kat":[]}
+{"Formula":"2Na2O2=2Na2O+O2","Reagents":["Na2O2"],"CountR":[2],"Products":["Na2O","O2"],"CountP":[2,1],"T":680.0,"MT":0.0,"Q":0.0,"Kat":[]}
+{"Formula":"6Na+2O2=2Na2O+Na2O2","Reagents":["Na","O2"],"CountR":[6,2],"Products":["Na2O","Na2O2"],"CountP":[2,1],"T":0.0,"MT":0.0,"Q":0.0,"Kat":[]}
+{"Formula":"2Na2O+O2=2Na2O2","Reagents":["Na2O","O2"],"CountR":[2,1],"Products":["Na2O2"],"CountP":[2],"T":0.0,"MT":670.0,"Q":0.0,"Kat":[]}

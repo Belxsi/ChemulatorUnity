@@ -1,0 +1,6 @@
+{
+    "myBool": false,
+    "myInt": 987,
+    "myFloat": 654.321,
+    "myStr": "Hello, Earth!"
+}
