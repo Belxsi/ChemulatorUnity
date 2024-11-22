@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
+
 
 public class H2O : Element,Acid,Base, Solvent
 {
@@ -16,7 +16,7 @@ public class H2O : Element,Acid,Base, Solvent
     }
     public override void Move(Element element,Physic.UDLR udlr)
     {
-        if (element.velocity == Vector2.Zero) return;
+        if (element.velocity == Vector2.zero) return;
         Physic.RaycastHit hit = Physic.Raycast(element.cell.pos, element.velocity, element);
         switch (hit.typeCollision)
         {
@@ -35,7 +35,7 @@ public class H2O : Element,Acid,Base, Solvent
                 if (udlr.GetCount() == 4)
                     Physic.Diffusion(udlr, this);
                // Physic.Diffusion(hit.elementCollision, this);
-                if (element.velocity.X == 0)
+                if (element.velocity.x == 0)
                     if(element.AStype!= hit.elementCollision.AStype)
                     Physic.DensityDissection(hit.elementCollision != null, hit.elementCollision, element);
                 break;

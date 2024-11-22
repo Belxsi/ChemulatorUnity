@@ -669,7 +669,7 @@ public class ChemistryReaction
         List<string> rule = result.Reagents.ToList();
         Dictionary<string, int> count = new();
         List<string> countP = new();
-        System.Numerics.Vector2Int point = el.cell.pos;
+        Vector2Int point =Graphic.Vector2ToInt( el.cell.pos);
         if (el.IsTag("clear")) return;
         if (el.Temp < result.TGetKelvin()||el.Temp>result.MTGetKelvin() & result.MTGetKelvin() != 0) return;
         for (int i = 0; i < result.Reagents.Length; i++)
@@ -746,7 +746,7 @@ public class ChemistryReaction
                    
                 // float Tend = (Q / (product.pp.heat_capacity)) * Simulator.me.KTempReactionGive + el.Temp;
                 float Tend = Q * Simulator.me.KTempReactionGive + el.Temp;
-                    CreateElementTS createElementTS = new CreateElementTS(countP[i], reagentsCell[i].pos, groups[i], Tend);
+                    CreateElementTS createElementTS = new CreateElementTS(countP[i], Graphic.Vector2ToInt(reagentsCell[i].pos), groups[i], Tend);
                     listCreated.Add(createElementTS);
                    
                 }
@@ -784,7 +784,7 @@ public class ChemistryReaction
         List<string> countP = new();
         if (main.IsTag("clear")) return;
         if (sol.IsTag("clear")) return;
-        System.Numerics.Vector2Int point = main.cell.pos;
+        Vector2Int point =Graphic.Vector2ToInt( main.cell.pos);
         if (main.Temp < result.TGetKelvin() || main.Temp > result.MTGetKelvin() & result.MTGetKelvin() != 0) return;
         for (int i = 0; i < result.Reagents.Length; i++)
         {
@@ -885,7 +885,7 @@ public class ChemistryReaction
                 Element product = Element.CreateElement(countP[i]);
                 //float Tend = (Q / (product.pp.heat_capacity)) * Simulator.me.KTempReactionGive + main.Temp;
                 float Tend = Q * Simulator.me.KTempReactionGive + main.Temp;
-                CreateElementTS createElementTS = new CreateElementTS(countP[i], reagentsCell[i].pos, groups[i], Tend);
+                CreateElementTS createElementTS = new CreateElementTS(countP[i], Graphic.Vector2ToInt(reagentsCell[i].pos), groups[i], Tend);
                 listCreated.Add(createElementTS);
                 Simulator.me.tasks.Add(createElementTS);
             }
@@ -1085,10 +1085,10 @@ public abstract class TaskSimulator
 public class CreateElementTS : TaskSimulator
 {
     public string nameclass;
-    public System.Numerics.Vector2Int pos;
+    public Vector2Int pos;
     public float Temp = Element.kelvin + 22;
     public List<Element> compress = new();
-    public CreateElementTS(string nameclass, System.Numerics.Vector2Int pos, List<Element> compress, float temp = Element.kelvin + 22)
+    public CreateElementTS(string nameclass, Vector2Int pos, List<Element> compress, float temp = Element.kelvin + 22)
     {
         this.nameclass = nameclass;
         this.pos = pos;

@@ -46,7 +46,7 @@ public class MouseDraw : MonoBehaviour
         Vector2 b = max - min;
 
         notmalize =Vector2.one-new Vector2(a.x/b.x,a.y/b.y);
-        result = new((int)( Mathf.Clamp01(Mathf.Abs(notmalize.x)) * (float)Field.size.X),(int) (Mathf.Clamp01(Mathf.Abs(notmalize.y)) * (float)Field.size.Y));
+        result = new((int)( Mathf.Clamp01(Mathf.Abs(notmalize.x)) * (float)Field.size.x),(int) (Mathf.Clamp01(Mathf.Abs(notmalize.y)) * (float)Field.size.y));
        // pixel.transform.localPosition =(Vector2) result;
         //Debug.Log(re);
     }

@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Numerics;
-using Vector2Int = System.Numerics.Vector2Int;
+
 using System.Reflection;
 using UnityEngine.EventSystems;
 public abstract class InspectorBrush : MonoBehaviour
@@ -17,7 +16,7 @@ public abstract class InspectorBrush : MonoBehaviour
     public void DrawSelect(Vector2Int offset2)
     {
         if (!Field.IsBound(offset2 + point)) 
-        simulator.tasks.Add(new RenderPixel(new( point.X+offset2.X, point.Y+offset2.Y, Color.white)));
+        simulator.tasks.Add(new RenderPixel(new( point.x+offset2.x, point.y+offset2.y, Color.white)));
     }
     public void Clear(Vector2Int offset2)
     {

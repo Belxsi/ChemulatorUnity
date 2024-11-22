@@ -5,7 +5,7 @@ using UnityEngine;
 public class BreakPointer : MonoBehaviour
 {
     public string name;
-    public System.Numerics.Vector2 pos;
+    public Vector2 pos;
     public static BreakPointer me;
     public Element link;
     public bool getlink;

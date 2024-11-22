@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
-using Vector2Int = System.Numerics.Vector2Int;
+
 
 public class Physic
 {
@@ -48,7 +47,7 @@ public class Physic
             
             if (el.cell != null)
             {
-                UDLR udlr = new(el.cell.pos);
+                UDLR udlr = new(Graphic.Vector2ToInt( el.cell.pos));
                 if (el.udlr == null)
                 {
                     GetUDLR(el, ref udlr.up, ref udlr.down, ref udlr.left, ref udlr.right);
@@ -89,7 +88,7 @@ public class Physic
                         if (count > 0)
                         {
                             Element compress = el.CompressedElements[count - 1];
-                            Simulator.me.tasks.Add(new CreateElementTS(compress.name, u.Item2.pos, compress.CompressedElements, compress.Temp));
+                            Simulator.me.tasks.Add(new CreateElementTS(compress.name, Graphic.Vector2ToInt(u.Item2.pos), compress.CompressedElements, compress.Temp));
                             removes.Add(compress);
                             count--;
                         }
@@ -222,26 +221,26 @@ public class Physic
         if (!udlr.up.Item1)
         {
 
-            Simulator.me.CreateElement(solvent.dissolved.GetType().Name, main.cell.pos + Vector2Int.UnitY, main.Temp);
+            Simulator.me.CreateElement(solvent.dissolved.GetType().Name, Graphic.Vector2ToInt(main.cell.pos) + Vector2Int.up, main.Temp);
 
             solvent.dissolved = null;
             return;
         }
         if (!udlr.down.Item1)
         {
-            Simulator.me.CreateElement(solvent.dissolved.GetType().Name, main.cell.pos - Vector2Int.UnitY, main.Temp);
+            Simulator.me.CreateElement(solvent.dissolved.GetType().Name,Graphic.Vector2ToInt( main.cell.pos) - Vector2Int.up, main.Temp);
             solvent.dissolved = null;
             return;
         }
         if (!udlr.left.Item1)
         {
-            Simulator.me.CreateElement(solvent.dissolved.GetType().Name, main.cell.pos - Vector2Int.UnitX, main.Temp);
+            Simulator.me.CreateElement(solvent.dissolved.GetType().Name, Graphic.Vector2ToInt(main.cell.pos) - Vector2Int.right, main.Temp);
             solvent.dissolved = null;
             return;
         }
         if (!udlr.right.Item1)
         {
-            Simulator.me.CreateElement(solvent.dissolved.GetType().Name, main.cell.pos + Vector2Int.UnitX, main.Temp);
+            Simulator.me.CreateElement(solvent.dissolved.GetType().Name, Graphic.Vector2ToInt(main.cell.pos) + Vector2Int.right, main.Temp);
             solvent.dissolved = null;
             return;
         }
@@ -249,23 +248,23 @@ public class Physic
     public static void GetUDLR(Element main, ref (bool, Element) up, ref (bool, Element) down, ref (bool, Element) left, ref (bool, Element) right)
     {
         if (main.cell != null)
-            if (Field.TryGetElement(main.cell.pos + Vector2.UnitY, out Element other))
+            if (Field.TryGetElement(Graphic.Vector2ToInt(main.cell.pos + Vector2.up), out Element other))
             {
                 up = new(true, other);
 
             }
         if (main.cell != null)
-            if (Field.TryGetElement(main.cell.pos + Vector2.UnitX, out Element other))
+            if (Field.TryGetElement(Graphic.Vector2ToInt(main.cell.pos + Vector2.right), out Element other))
             {
                 right = new(true, other);
             }
         if (main.cell != null)
-            if (Field.TryGetElement(main.cell.pos - Vector2.UnitY, out Element other))
+            if (Field.TryGetElement(Graphic.Vector2ToInt(main.cell.pos - Vector2.up), out Element other))
             {
                 down = new(true, other);
             }
         if (main.cell != null)
-            if (Field.TryGetElement(main.cell.pos - Vector2.UnitX, out Element other))
+            if (Field.TryGetElement(Graphic.Vector2ToInt(main.cell.pos - Vector2.right), out Element other))
             {
                 left = new(true, other);
             }
@@ -273,23 +272,23 @@ public class Physic
     public static void GetCellUDLR(Element main, ref (bool, Cell) up, ref (bool, Cell) down, ref (bool, Cell) left, ref (bool, Cell) right)
     {
         if (main.cell != null)
-            if (Field.TryGetCell(main.cell.pos + Vector2.UnitY, out Cell other))
+            if (Field.TryGetCell(Graphic.Vector2ToInt(main.cell.pos + Vector2.up), out Cell other))
             {
                 up = new(true, other);
 
             }
         if (main.cell != null)
-            if (Field.TryGetCell(main.cell.pos + Vector2.UnitX, out Cell other))
+            if (Field.TryGetCell(Graphic.Vector2ToInt(main.cell.pos + Vector2.right), out Cell other))
             {
                 right = new(true, other);
             }
         if (main.cell != null)
-            if (Field.TryGetCell(main.cell.pos - Vector2.UnitY, out Cell other))
+            if (Field.TryGetCell(Graphic.Vector2ToInt(main.cell.pos - Vector2.up), out Cell other))
             {
                 down = new(true, other);
             }
         if (main.cell != null)
-            if (Field.TryGetCell(main.cell.pos - Vector2.UnitX, out Cell other))
+            if (Field.TryGetCell(Graphic.Vector2ToInt(main.cell.pos - Vector2.right), out Cell other))
             {
                 left = new(true, other);
             }
@@ -353,8 +352,8 @@ public class Physic
                 {
                     Element other = u.Item2;
                     Vector2 dir = (main.cell.pos - other.cell.pos);
-                    X = new(X.X + dir.X, 0);
-                    Y = new(0, Y.Y + dir.Y);
+                    X = new(X.x + dir.x, 0);
+                    Y = new(0, Y.y + dir.y);
 
 
 
@@ -371,12 +370,12 @@ public class Physic
                         if (main.GetDensity() > other.GetDensity())
                         {
                             //Simulator.me.tasks.Add(new ReplaceTS(main, other));
-                            if (main.cell.pos.Y < other.cell.pos.Y)
+                            if (main.cell.pos.y < other.cell.pos.y)
                                 Element.Replace(main, other);
                         }
                         else
                         {
-                            if (other.cell.pos.Y < main.cell.pos.Y)
+                            if (other.cell.pos.y < main.cell.pos.y)
                                 Element.Replace(main, other);
                         }
 
@@ -421,7 +420,7 @@ public class Physic
 
         float x = UnityEngine.Random.Range(-Simulator.me.amplitudeGasRandom, Simulator.me.amplitudeGasRandom);
         // float y = UnityEngine.Random.Range(-Simulator.me.amplitudeGasRandom, Simulator.me.amplitudeGasRandom);
-        Vector2Int vel = new Vector2Int((int)x, 0) * Simulator.me.powerGasRandom;
+        Vector2Int vel = new Vector2Int((int)x, 0) * (int)Simulator.me.powerGasRandom;
         element.velocity += (Vector2)vel;
     }
     public static void GasY(Element element)
@@ -429,22 +428,22 @@ public class Physic
 
         // float x = UnityEngine.Random.Range(-Simulator.me.amplitudeGasRandom, Simulator.me.amplitudeGasRandom);
         float y = UnityEngine.Random.Range(-Simulator.me.amplitudeGasRandom, Simulator.me.amplitudeGasRandom);
-        Vector2Int vel = new Vector2Int(0, (int)y) * Simulator.me.powerGasRandom;
+        Vector2Int vel = new Vector2Int(0, (int)y) * (int)Simulator.me.powerGasRandom;
         element.velocity += (Vector2)vel;
     }
     public static void LiquidBehavior(Element element)
     {
         bool left = false, right = false, down = false;
-        down = Field.IsBound(element.cell.pos + Vector2Int.UnitY);
-        if (!down) down = Field.IsElement(element.cell.pos + Vector2Int.UnitY);
+        down = Field.IsBound(Graphic.Vector2ToInt( element.cell.pos + Vector2Int.up));
+        if (!down) down = Field.IsElement(Graphic.Vector2ToInt(element.cell.pos + Vector2Int.up));
         if (!down) return;
         switch (element.dirUniXMove)
         {
             case DirLiqual.None:
-                left = Field.IsBound(element.cell.pos - Vector2Int.UnitX);
-                right = Field.IsBound(element.cell.pos + Vector2Int.UnitX);
-                if (!left) left = Field.IsElement(element.cell.pos - Vector2Int.UnitX);
-                if (!right) right = Field.IsElement(element.cell.pos + Vector2Int.UnitX);
+                left = Field.IsBound(Graphic.Vector2ToInt(element.cell.pos - Vector2Int.right));
+                right = Field.IsBound(Graphic.Vector2ToInt(element.cell.pos + Vector2Int.right));
+                if (!left) left = Field.IsElement(Graphic.Vector2ToInt(element.cell.pos - Vector2Int.right));
+                if (!right) right = Field.IsElement(Graphic.Vector2ToInt(element.cell.pos + Vector2Int.right));
                 if (left == right & left == true)
                 {
                     return;
@@ -468,58 +467,58 @@ public class Physic
             case DirLiqual.R:
 
 
-                right = Field.IsBound(element.cell.pos + Vector2Int.UnitX);
-                if (!right) right = Field.IsElement(element.cell.pos + Vector2Int.UnitX);
+                right = Field.IsBound(Graphic.Vector2ToInt(element.cell.pos + Vector2Int.right));
+                if (!right) right = Field.IsElement(Graphic.Vector2ToInt(element.cell.pos + Vector2Int.right));
                 if (right)
                 {
                     element.dirUniXMove = DirLiqual.L;
                     break;
                 }
-                element.velocity += Vector2.UnitX;
+                element.velocity += Vector2.right;
                 break;
             case DirLiqual.L:
-                left = Field.IsBound(element.cell.pos - Vector2Int.UnitX);
-                if (!left) left = Field.IsElement(element.cell.pos - Vector2Int.UnitX);
+                left = Field.IsBound(Graphic.Vector2ToInt(element.cell.pos - Vector2Int.right));
+                if (!left) left = Field.IsElement(Graphic.Vector2ToInt(element.cell.pos - Vector2Int.right));
                 if (left)
                 {
                     element.dirUniXMove = DirLiqual.R;
                     break;
                 }
-                element.velocity -= Vector2.UnitX;
+                element.velocity -= Vector2.right;
                 break;
         }
     }
     public static RaycastHit Raycast(Vector2 origin, Vector2 velocity, Element me)
     {
         RaycastHit hit = default;
-        hit.distance = velocity.Length();
-        hit.dir = Vector2.Normalize(velocity);
-        Vector2 originPos = Vector2.Zero;
+        hit.distance = velocity.magnitude;
+        hit.dir = velocity.normalized;
+        Vector2 originPos = Vector2.zero;
         Vector2 dolit = me.dolit;
-        if (Field.TryGetElement(origin + velocity, out Element e))
+        if (Field.TryGetElement(Graphic.Vector2ToInt(origin + velocity), out Element e))
             hit.finalelement = e;
-        for (int i = 1; i <= velocity.Length(); i++)
+        for (int i = 1; i <= velocity.magnitude; i++)
         {
             Vector2 old_currentPoint = hit.dir * (i - 1) + dolit;
             Vector2 currentPoint = hit.dir * i + dolit;
             originPos = origin + currentPoint;
-            if ((Vector2Int)currentPoint == Vector2Int.Zero) continue;
-            if (Field.IsBound(originPos))
+            if (Graphic.Vector2ToInt(currentPoint) == Vector2Int.zero) continue;
+            if (Field.IsBound(Graphic.Vector2ToInt(originPos)))
             {
                 hit.typeCollision = RaycastHit.Collision.Bound;
-                hit.distance = currentPoint.Length();
-                hit.position = origin + old_currentPoint;
-                me.dolit = Vector2.Zero;
+                hit.distance = currentPoint.magnitude;
+                hit.position = Graphic.Vector2ToInt(origin + old_currentPoint);
+                me.dolit = Vector2.zero;
                 me.Glut(origin + old_currentPoint);
 
                 return hit;
             }
-            if (Field.TryGetElement(originPos, out Element element))
+            if (Field.TryGetElement(Graphic.Vector2ToInt(originPos), out Element element))
             {
                 hit.typeCollision = RaycastHit.Collision.Element;
-                hit.distance = currentPoint.Length();
-                hit.position = origin + old_currentPoint;
-                me.dolit = Vector2.Zero;
+                hit.distance = currentPoint.magnitude;
+                hit.position = Graphic.Vector2ToInt(origin + old_currentPoint);
+                me.dolit = Vector2.zero;
                 me.Glut(origin + old_currentPoint);
                 hit.elementCollision = element;
                 return hit;
@@ -527,8 +526,8 @@ public class Physic
 
         }
         hit.typeCollision = RaycastHit.Collision.None;
-        hit.position = originPos;
-        me.dolit = Vector2.Zero;
+        hit.position = Graphic.Vector2ToInt(originPos);
+        me.dolit = Vector2.zero;
         me.Glut(originPos);
         return hit;
     }
@@ -543,7 +542,7 @@ public class Physic
         public RaycastHit(float distance, Vector2 position, Collision typeCollision, Element element, Vector2 dir, Element elementCollision, Element finalelement)
         {
             this.distance = distance;
-            this.position = position;
+            this.position = Graphic.Vector2ToInt(position);
             this.typeCollision = typeCollision;
             this.element = element;
             this.elementCollision = elementCollision;

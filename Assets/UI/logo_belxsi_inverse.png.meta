@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      logo_belxsi_inverse_0: -6912245702087633910
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

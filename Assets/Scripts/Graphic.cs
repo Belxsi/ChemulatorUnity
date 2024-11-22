@@ -2,14 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
+
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using UnityEngine;
 using UnityEngine.UI;
-using Vector2 = System.Numerics.Vector2;
-using Vector2Int = System.Numerics.Vector2Int;
+
 
 
 public class Graphic : MonoBehaviour
@@ -34,13 +33,13 @@ public class Graphic : MonoBehaviour
        // {
        //     screen[i] = new Color32[Field.size.Y];
       //  }
-        exporter = new Texture2D(Field.size.X, Field.size.Y,TextureFormat.RGBA32,false,true);
+        exporter = new Texture2D(Field.size.x, Field.size.y,TextureFormat.RGBA32,false,true);
         
         exporter.filterMode = FilterMode.Point;
         
        
-        for(int x=0;x<Field.size.X;x++)
-            for (int y = 0; y < Field.size.Y; y++)
+        for(int x=0;x<Field.size.x;x++)
+            for (int y = 0; y < Field.size.y; y++)
             {
                 SetPixel(x,y);
             }
@@ -50,10 +49,10 @@ public class Graphic : MonoBehaviour
     {
         switch (TypeSize) {
             case TypeSizeScreen.Fullscreen:
-        transform.localScale = new UnityEngine.Vector3(864f / Field.size.X, 272f / Field.size.Y * (1920f / 1080f), 1) * scaleImage;
+        transform.localScale = new UnityEngine.Vector3(864f / Field.size.x, 272f / Field.size.y * (1920f / 1080f), 1) * scaleImage;
                 break;
             case TypeSizeScreen.Squad:
-                transform.localScale = new UnityEngine.Vector3(272f / Field.size.X, 272f / Field.size.Y * (1920f / 1080f), 1) * scaleImage;
+                transform.localScale = new UnityEngine.Vector3(272f / Field.size.x, 272f / Field.size.y * (1920f / 1080f), 1) * scaleImage;
                 break;
         }
     }
@@ -95,11 +94,15 @@ public class Graphic : MonoBehaviour
        
 
     }
+    public static Vector2Int Vector2ToInt(Vector2 v)
+    {
+        return new((int)v.x,(int) v.y);
+    }
     public void RenderPixel(Cell cell)
     {
        
         // screen[point.X][ point.Y]= cell.GetColorElement();
-        SetScreenDict(cell.pos, cell);
+        SetScreenDict(Vector2ToInt(cell.pos), cell);
 
 
     }
@@ -163,7 +166,7 @@ public class Graphic : MonoBehaviour
         foreach (Element el in obj.ToList())
         {
             if (Simulator.me.updatepixels)
-                Simulator.me.graphic.RenderPixel(el.cell.pos);
+                Simulator.me.graphic.RenderPixel(Vector2ToInt(el.cell.pos));
         }
         }
     private readonly object _listLock = new object();
@@ -175,8 +178,8 @@ public class Graphic : MonoBehaviour
         // for (int y = 0; y < Field.size.Y; y++)
         //     exporter.SetPixel(x,y,screen[x][y]);
         if (Simulator.me.random.NextDouble() > Simulator.me.reupdateGraphicRate)
-            for (int x = 0; x < Field.size.X; x++)
-                for (int y = 0; y < Field.size.Y; y++) { 
+            for (int x = 0; x < Field.size.x; x++)
+                for (int y = 0; y < Field.size.y; y++) { 
                    Cell cell= Field.field[x, y];
         
                 exporter.SetPixel(x, y, cell.GetColorElement());
@@ -184,7 +187,7 @@ public class Graphic : MonoBehaviour
         foreach (var item in screen)
         {
             Cell cell = item.Value;
-            exporter.SetPixel((int)cell.pos.X,(int)( cell.pos.Y), cell.GetColorElement());
+            exporter.SetPixel((int)cell.pos.x,(int)( cell.pos.y), cell.GetColorElement());
         }
         if (effects.Count > 0)
         {
@@ -199,7 +202,7 @@ public class Graphic : MonoBehaviour
         exporter.Apply(true,false);
         
         //Graphics.DrawTexture(new(0, 0, Field.size.X, Field.size.Y), exporter);
-        image = Sprite.Create(exporter, new(0, 0, Field.size.X, Field.size.Y), new(0.5f, 0.5f));
+        image = Sprite.Create(exporter, new(0, 0, Field.size.x, Field.size.y), new(0.5f, 0.5f));
         ImageBox.sprite = image;
     }
     public void AllRender()
@@ -209,13 +212,13 @@ public class Graphic : MonoBehaviour
         //  for (int x = 0; x < Field.size.X; x++)
         // for (int y = 0; y < Field.size.Y; y++)
         //     exporter.SetPixel(x,y,screen[x][y]);
-        exporter = new Texture2D(Field.size.X, Field.size.Y, TextureFormat.RGBA32, false, true);
+        exporter = new Texture2D(Field.size.x, Field.size.y, TextureFormat.RGBA32, false, true);
         exporter.filterMode = FilterMode.Point;
        
         foreach (var list in Simulator.me.Curlements)
             foreach (var item in list)
             {
-            Pixel pixel =new( item.cell.pos,item.cell.GetColorElement());
+            Pixel pixel =new(Vector2ToInt(item.cell.pos),item.cell.GetColorElement());
                 olds.Add(pixel);
             exporter.SetPixel(pixel.x, pixel.y, pixel.Color);
         }
@@ -225,7 +228,7 @@ public class Graphic : MonoBehaviour
         exporter.Apply(true, false);
 
         //Graphics.DrawTexture(new(0, 0, Field.size.X, Field.size.Y), exporter);
-        image = Sprite.Create(exporter, new(0, 0, Field.size.X, Field.size.Y), new(0.5f, 0.5f));
+        image = Sprite.Create(exporter, new(0, 0, Field.size.x, Field.size.y), new(0.5f, 0.5f));
         ImageBox.sprite = image;
     }
     public void Render()
@@ -249,8 +252,8 @@ public class Graphic : MonoBehaviour
         }
         public Pixel(Vector2Int point, Color color)
         {
-            this.x = point.X;
-            this.y = point.Y;
+            this.x = point.x;
+            this.y = point.y;
             Color = color;
         }
     }

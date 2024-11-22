@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
-using Vector2Int = System.Numerics.Vector2Int;
+
 using TMPro;
 using UnityEngine.UI;
 public class Simulator : MonoBehaviour

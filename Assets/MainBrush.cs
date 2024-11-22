@@ -49,7 +49,7 @@ public class MainBrush : InspectorBrush
                 });
                 var newtex = new Texture2D(tex.width, tex.height, tex.format, true);
                 newtex.filterMode = FilterMode.Point;
-                newtex.alphaIsTransparency = tex.alphaIsTransparency;
+                
 
                 newtex.SetPixels32(necol.ToArray());
                 newtex.Apply();
@@ -67,8 +67,8 @@ public class MainBrush : InspectorBrush
       
 
     }
-    public delegate void ActionParameter(System.Numerics.Vector2Int vek);
-    public void ProvedSize(Action<System.Numerics.Vector2Int> action)
+    public delegate void ActionParameter(Vector2Int vek);
+    public void ProvedSize(Action<Vector2Int> action)
     {
         switch (typeBrush)
         {
@@ -76,7 +76,7 @@ public class MainBrush : InspectorBrush
                 for (int x = -sizeBrush + 1; x < sizeBrush; x++)
                     for (int y = -sizeBrush + 1; y < sizeBrush; y++)
                     {
-                        action.Invoke(new System.Numerics.Vector2Int(x, y));
+                        action.Invoke(new Vector2Int(x, y));
 
                     }
 
@@ -90,7 +90,7 @@ public class MainBrush : InspectorBrush
             case TypeDraw.Draw:
                 sizeBrush = Mathf.Clamp(sizeBrush + Mathf.RoundToInt(Input.mouseScrollDelta.y), 1, int.MaxValue);
                 if (mouseConnect)
-                    point = new(MouseDraw.result);
+                    point = new(MouseDraw.result.x, MouseDraw.result.y);
 
                 if ((create) || mouseConnect & (!Window.drag) & MouseDraw.IsDraw)
                 {
@@ -130,7 +130,7 @@ public class MainBrush : InspectorBrush
                     simulator.info.text = "";
                 }
                 if (mouseConnect)
-                    point = new(MouseDraw.result);
+                    point = new(MouseDraw.result.x, MouseDraw.result.y);
 
                 if ((create) || mouseConnect & (!Window.drag) & MouseDraw.IsDraw)
                 {

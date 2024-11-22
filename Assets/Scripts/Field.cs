@@ -4,7 +4,7 @@ using System;
 using System.Configuration;
 using UnityEngine;
 using Random = System.Random;
-using Vector2Int = System.Numerics.Vector2Int;
+
 
 public class Field
 {
@@ -18,8 +18,8 @@ public class Field
     }
     public static void Init()
     {
-        for (int x = 0; x < size.X; x++)
-            for (int y = 0; y < size.Y; y++)
+        for (int x = 0; x < size.x; x++)
+            for (int y = 0; y < size.y; y++)
             {
                 field[x, y] = new Cell(x, y);
             }
@@ -29,7 +29,7 @@ public class Field
         if (!IsBound(pos))
             if (!IsElement(pos))
             {
-                element.cell = field[pos.X, pos.Y];
+                element.cell = field[pos.x, pos.y];
                 element.cell.element = element;
                 Debug.Log(element.name);
               //  element.Render(element.cell.pos);
@@ -39,16 +39,16 @@ public class Field
     }
     public static bool IsBound(Vector2Int point)
     {
-        return !(point.X>=0&point.X<size.X && point.Y>=0&point.Y<size.Y);
+        return !(point.x>=0&point.x<size.x && point.y>=0&point.y<size.y);
     }
     public static bool TryGetElement(Vector2Int point,out Element element)
     {
         element = null;
         if (!IsBound(point))
         {
-            if(field[point.X, point.Y].element != null)
+            if(field[point.x, point.y].element != null)
             {
-                element = field[point.X, point.Y].element;
+                element = field[point.x, point.y].element;
                 return true;
             }
         }
@@ -59,7 +59,7 @@ public class Field
         
         if (!IsBound(point))
         {
-            if (field[point.X, point.Y].element != null)
+            if (field[point.x, point.y].element != null)
             {
                
                 return true;
@@ -72,9 +72,9 @@ public class Field
         cell = null;
         if (!IsBound(point))
         {
-            if (field[point.X, point.Y] != null)
+            if (field[point.x, point.y] != null)
             {
-                cell = field[point.X, point.Y];
+                cell = field[point.x, point.y];
                 return true;
             }
         }
@@ -84,6 +84,6 @@ public class Field
    
     public static void Clear()
     {
-        field = new Cell[size.X, size.Y];
+        field = new Cell[size.x, size.y];
     }
 }

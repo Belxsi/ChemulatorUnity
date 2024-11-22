@@ -1,7 +1,7 @@
 ﻿
-using System.Numerics;
+
 using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
+
 
 public class Cell
 {

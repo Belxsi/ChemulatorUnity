@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
-using Vector2Int = System.Numerics.Vector2Int;
+
+
 using System;
 using System.Linq;
 
@@ -192,7 +192,7 @@ public abstract class Element
             else
             {
                 Physic.Diffusion(udlr, this);
-                if (udlr.up.Item2.velocity.X == 0)
+                if (udlr.up.Item2.velocity.x == 0)
                     if(this.name!=udlr.up.Item2.name||this.AStype!= udlr.up.Item2.AStype)
                     Physic.DensityDissection(udlr.up.Item2 != null,this , udlr.up.Item2);
                // Physic.DensityDissection(udlr.up.Item2 != null, udlr.up.Item2, this );
@@ -251,7 +251,7 @@ public abstract class Element
     }
     public virtual void Move(Element element, Physic.UDLR udlr)
     {
-        if (element.velocity == Vector2.Zero) return;
+        if (element.velocity == Vector2.zero) return;
         Physic.RaycastHit hit = Physic.Raycast(element.cell.pos, element.velocity, element);
         switch (hit.typeCollision)
         {
@@ -265,7 +265,7 @@ public abstract class Element
                 break;
             case Physic.RaycastHit.Collision.Element:
                 element.Repos(hit.position);
-                if (element.velocity.X == 0) 
+                if (element.velocity.x == 0) 
                     if(element.AStype!= hit.elementCollision.AStype)
                 Physic.DensityDissection(hit.elementCollision != null, hit.elementCollision, element);
                 break;
@@ -297,36 +297,36 @@ public abstract class Element
             case AgreegateStateType.Solid:
                 Physic.Gravitation(this);
                 Move(this,udlr);
-                velocity = Vector2.Zero;
+                velocity = Vector2.zero;
 
 
                 break;
             case AgreegateStateType.Liquid:
                 Physic.Gravitation(this);
                 Move(this, udlr);
-                velocity = Vector2.Zero;
+                velocity = Vector2.zero;
                 Physic.LiquidBehavior(this);
                 Move(this, udlr);
-                velocity = Vector2.Zero;
+                velocity = Vector2.zero;
 
                 break;
             case AgreegateStateType.Gas:
                 Physic.Gravitation(this,1/9);
                 Move(this, udlr);
-                velocity = Vector2.Zero;
+                velocity = Vector2.zero;
                 Physic.GasX(this);
                 Move(this, udlr);
-                velocity = Vector2.Zero;
+                velocity = Vector2.zero;
                 Physic.GasY(this);
                 Move(this, udlr);
-                velocity = Vector2.Zero;
+                velocity = Vector2.zero;
                 Physic.ReMagnet(out Vector2 X,out Vector2 Y,udlr,this);
                 velocity = X;
                 Move(this, udlr);
-                velocity = Vector2.Zero;
+                velocity = Vector2.zero;
                 velocity = Y;
                 Move(this, udlr);
-                velocity = Vector2.Zero;
+                velocity = Vector2.zero;
                 break;
         }
     }
@@ -341,7 +341,7 @@ public abstract class Element
   //  }
     public void Glut(Vector2 pos)
     {
-        dolit += pos - (Vector2)(Vector2Int)(pos);
+        dolit += pos - (Vector2)Graphic.Vector2ToInt(pos);
     }
     public void Repos(Vector2Int newpos)
     {
@@ -449,10 +449,10 @@ public class Fire : Element,NoElement
     {
         Physic.Gravitation(this);
         Move(this, udlr);
-        velocity = Vector2.Zero;
+        velocity = Vector2.zero;
         Physic.GasX(this);
         Move(this, udlr);
-        velocity = Vector2.Zero;
+        velocity = Vector2.zero;
         Physic.GasY(this);
         Move(this, udlr);
     }
